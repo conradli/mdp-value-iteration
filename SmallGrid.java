@@ -20,9 +20,10 @@ public class SmallGrid {
     // transition and reward functions
     private static double[][][] T = new double[NUM_STATES+1][NUM_ACTIONS+1][NUM_STATES+1];
     private static double[] R = new double[NUM_STATES+1];
+    private static double[] utility = new double[NUM_STATES+1];
     private static int[] policy = new int[NUM_STATES+1];
     
-    public static void main (String[] args) {
+    public static void main (String[] args) { 
         if (args.length != 6 ) {
             System.out.println("java SmallGrid discount epsilon posR negR otherR");
             System.out.println("    discount = discount factor (gamma)");
@@ -294,90 +295,45 @@ public class SmallGrid {
 
 
     public static void valueIteration() {
-        for(int i=0; i < 10; ++i) {
-            for(int s=3; s<=NUM_STATES; ++s) {
+        for(int i = 1; i < 25; ++i) {
+            double delta = 0;
+            for(int s = 1; s <= NUM_STATES; ++s) {
                 double maxActionUtility = -Double.MAX_VALUE;
                 int bestPolicy = -1; 
-                for(int a=1; a <= NUM_ACTIONS; ++a) {
-                    double u = STEP_COST;
-                    for (int p=1; p <= NUM_STATES; ++p) {
+                for(int a = 1; a <= NUM_ACTIONS; ++a) {
+                    double u = 0;
+                    for (int p = 1; p <= NUM_STATES; ++p) {
                         double probability = T[s][a][p];
-                        if (probability > 0) {
-                            u += probability * R[p] * DISCOUNT_FACTOR;
-                        }
+                        u += probability * utility[p] * DISCOUNT_FACTOR;
+                        
+                    }
+                    if (R[s] != POS_TERMINAL_REWARD && R[s] != NEG_TERMINAL_REWARD) {
+                        u += STEP_COST;
+
                     }
                     if (u > maxActionUtility) {
                         maxActionUtility = u;
                         bestPolicy = a;
                     }
                 }
-                /*
-                if (Math.abs(R[s] - maxActionUtility) > EPSILON) {
-                    
+                
+                double new_utility = maxActionUtility + R[s];
+                if (Math.abs(utility[s] - new_utility) > delta) {
+                    delta = Math.abs(utility[s] - new_utility);
                 }
-                */
-
-                R[s] += maxActionUtility;
+            
+                utility[s] = new_utility;
                 policy[s] = bestPolicy;
             }
-
-            printStatus(i, R, policy);
-
-        }
-        
-        
-        /*
-        for (each state S)
-            find best action
-            for each action a
-            for each state s'
-                sum s'
-        */
-
-        /*
-        double maxUChange = 0;//to store maximum value change
-        //iterate through every state
-        for (State state : States) {
-            double bestDirVal = -Double.MAX_VALUE;//so that it definitely gets updated
-            dir bestDir = null;
-            //iterate through each possible action
-            for (dir direction: dir.values()) {
-                //get each neighbor reachable through current action
-                State direct = state.getNeighbor(direction);
-                State counter = state.getNeighbor(direction.counter());
-                State clockwise = state.getNeighbor(direction.clockwise());
-                //calculate total utility of each of those neighbors
-                double utility = (transition(state, direction, direct) * direct.getValue());
-                //make sure counter neighbor hasn't already been checked
-                if (!direct.equals(counter)) {
-                utility += (transition(state, direction, counter) * counter.getValue());
-                }
-                //make sure clockwise neighbor hasn't already been checked
-                if (!direct.equals(clockwise) && !counter.equals(clockwise)) { 
-                utility += (transition(state, direction, clockwise) * clockwise.getValue());
-                }
-                //if one of the possible states is 40, then the key loss prob means 41 is also possible
-                if (direct.equals(States[40]) || counter.equals(States[40]) || clockwise.equals(States[40])) {
-                    utility += (transition(state, direction, States[41]) * States[41].getValue());
-                }
-                //if this is the best direction update the current direction and value
-                if (utility > bestDirVal) {
-                    bestDirVal = utility;
-                    bestDir = direction;
-                }
+            
+            if (delta <= EPSILON*(1-DISCOUNT_FACTOR)/DISCOUNT_FACTOR) {
+                break;
             }
-            //calculate the actual new utility and change in utility
-            double newVal = state.getReward() + (Discount_Factor * bestDirVal);
-            double uChange = Math.abs(newVal - state.getValue());
-            //if change in utility is the largest yet set new max
-            if (uChange > maxUChange) maxUChange = uChange;
-            //update state value and optimal move
-            state.setValue(newVal);
-            state.setOptMove(bestDir);
+
+            printStatus(i, utility, policy);
+
         }
-        //return the maximum change in utility
-        return maxUChange;
-        */
+        
     }
 
 } 
