@@ -1,8 +1,10 @@
-.result {
-    width: 200px;
-    color: red;
-
+<style>
+table th {
+    width: 50%;
 }
+
+</style>
+
 # Markov Decision Processes Lab 
 ### Authors: Caleb Eurich & Conrad Li
 
