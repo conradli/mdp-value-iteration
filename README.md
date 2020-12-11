@@ -1,10 +1,3 @@
-<style>
-table th {
-    width: 50%;
-}
-
-</style>
-
 # Markov Decision Processes Lab 
 ### Authors: Caleb Eurich & Conrad Li
 
@@ -32,14 +25,13 @@ It actually takes 4 iterations for the policy to be the same as the optimal poli
 ### **Question 3:**
 
 #### Discount Factor
-<div class="result">
 | Discount Factor | # of Iterations | 
 | :-------------: | :-------------: |
+|<img width=120 height=0/> | <img width=120 height=0/>|
 |       0.1       |         5       |
 |       0.4       |        12       |
 |       0.7       |        10       |
 |       1.0       |        41       |
-</div>
 **Explanation**
 
 Generally, the number of iterations required for convergence increases as the discount factor increases. The termination condition is when:
@@ -52,7 +44,7 @@ Thus, the termination condition is more easily met when the discount factor is s
 #### Step Cost
 |    Step Cost    | # of Iterations | 
 | :-------------: | :-------------: |
-|<img width=120/> | <img width=120/>|
+|<img width=120 height=0/> | <img width=120 height=0/>|
 |       -10.0     |        23       |
 |       -0.04     |        22       |
 |        0.0      |        138      |
@@ -71,7 +63,7 @@ With a positive step cost, the agent will do whatever it can to avoid the positi
 #### Negative Reward
 | Negative Reward | # of Iterations | 
 | :-------------: | :-------------: |
-|<img width=120/> | <img width=120/>|
+|<img width=120 height=0/> | <img width=120 height=0/>|
 |      -100.0     |       140       |
 |      -10.0      |       140       |
 |      -1.0       |       22        |
@@ -84,7 +76,7 @@ No, but seriously, really big negative rewards are so bad that the agent would r
 #### Positive Reward
 | Positive Reward | # of Iterations | 
 | :-------------: | :-------------: |
-|<img width=120/> | <img width=120/>|
+|<img width=120 height=0/> | <img width=120 height=0/>|
 |       1.0       |        22       |
 |      10.0       |        136      |
 |     100.0       |        165      |
