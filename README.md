@@ -40,6 +40,7 @@ Generally, the number of iterations required for convergence increases as the di
 
 Thus, the termination condition is more easily met when the discount factor is smaller. If the discount factor is not high enough, the potential positive reward will not effectively propagate to affect utilities. 
 
+--- 
 
 #### Step Cost
 |    Step Cost    | # of Iterations | 
@@ -59,6 +60,8 @@ With no step cost, the agent will take the safest route which is to always go in
 
 With a positive step cost, the agent will do whatever it can to avoid the positive and negative terminal states because it can accumulate  more rewards than terminating.
 
+--- 
+
 #### Negative Reward
 | Negative Reward | # of Iterations | 
 | :-------------: | :-------------: |
@@ -68,8 +71,9 @@ With a positive step cost, the agent will do whatever it can to avoid the positi
 
 **Explanation**
 
-Big negative reward = bad. Avoid at all cost. 
-No, but seriously, really big negative rewards are so bad that the agent would rather run into the wall repeatedly until the 0.1 chance it moves in the incorrect direction kicks in. It will do everything it can to avoid the negative reward terminal state.
+Really big negative rewards are so bad that the agent would rather run into the wall repeatedly until the 0.1 chance it moves in the incorrect direction kicks in. It will do everything it can to avoid the negative reward terminal state. -100.0 and -10.0 negative rewards have the same impact on the policy whereas for -1.0, the agent will have a slightly different policy.
+
+--- 
 
 #### Positive Reward
 | Positive Reward | # of Iterations | 
