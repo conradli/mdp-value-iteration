@@ -1,15 +1,20 @@
+.result {
+    width: 200px;
+    color: red;
+
+}
 # Markov Decision Processes Lab 
 ### Authors: Caleb Eurich & Conrad Li
 
 
 ## Instructions
 These are the parameters to run:
-    1. Discount factor
-    2. Maximum state error
-    3. Positive terminal state reward
-    4. Negative terminal state reward
-    5. Non-terminal state reward
-    6. Step cost
+   1. Discount factor
+   2. Maximum state error
+   3. Positive terminal state reward
+   4. Negative terminal state reward
+   5. Non-terminal state reward
+   6. Step cost
     
 Instruction code: `java SmallGrid 0.1 1e-6 1 -1 0 -0.04`
 
@@ -25,19 +30,19 @@ It actually takes 4 iterations for the policy to be the same as the optimal poli
 ### **Question 3:**
 
 #### Discount Factor
+<div class="result">
 | Discount Factor | # of Iterations | 
 | :-------------: | :-------------: |
-|<img width=120/> | <img width=120/>|
 |       0.1       |         5       |
 |       0.4       |        12       |
 |       0.7       |        10       |
 |       1.0       |        41       |
-
+</div>
 **Explanation**
 
 Generally, the number of iterations required for convergence increases as the discount factor increases. The termination condition is when:
 
-![termination formula](./termination-formula.png)
+<class style="width:200px; height:auto;">![termination formula](./termination-formula.png)
 
 Thus, the termination condition is more easily met when the discount factor is smaller. If the discount factor is not high enough, the potential positive reward will not effectively propagate to affect utilities. 
 
