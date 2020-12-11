@@ -125,8 +125,7 @@ public class SmallGrid {
         // specifies reward you get given the state you're starting out in
         // BEFORE a transition
         for(int s = 1 ; s <= NUM_STATES ; ++s) {
-            R[s] = NON_TERMINAL_REWARD;
-
+            R[s] = NON_TERMINAL_REWARD + STEP_COST;
         }
         
         R[1] = POS_TERMINAL_REWARD;
@@ -295,7 +294,9 @@ public class SmallGrid {
 
 
     public static void valueIteration() {
-        for(int i = 1; i < 25; ++i) {
+        int iteration = 1;
+        boolean cont = true;
+        while(cont) {
             double delta = 0;
             for(int s = 1; s <= NUM_STATES; ++s) {
                 double maxActionUtility = -Double.MAX_VALUE;
@@ -303,14 +304,9 @@ public class SmallGrid {
                 for(int a = 1; a <= NUM_ACTIONS; ++a) {
                     double u = 0;
                     for (int p = 1; p <= NUM_STATES; ++p) {
-                        double probability = T[s][a][p];
-                        u += probability * utility[p] * DISCOUNT_FACTOR;
-                        
+                        u += T[s][a][p] * utility[p] * DISCOUNT_FACTOR;
                     }
-                    if (R[s] != POS_TERMINAL_REWARD && R[s] != NEG_TERMINAL_REWARD) {
-                        u += STEP_COST;
 
-                    }
                     if (u > maxActionUtility) {
                         maxActionUtility = u;
                         bestPolicy = a;
@@ -326,13 +322,16 @@ public class SmallGrid {
                 policy[s] = bestPolicy;
             }
             
+            printStatus(iteration, utility, policy);
+
             if (delta <= EPSILON*(1-DISCOUNT_FACTOR)/DISCOUNT_FACTOR) {
-                break;
+                cont = false;
             }
 
-            printStatus(i, utility, policy);
-
+            iteration++;
         }
+        
+            
         
     }
 
