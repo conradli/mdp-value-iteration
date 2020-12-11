@@ -297,42 +297,46 @@ public class SmallGrid {
         int iteration = 1;
         boolean cont = true;
         while(cont) {
+            // Keep track of any changes in the states' utilities
             double delta = 0;
+            // Iterate through states
             for(int s = 1; s <= NUM_STATES; ++s) {
                 double maxActionUtility = -Double.MAX_VALUE;
-                int bestPolicy = -1; 
+                int bestPolicy = -1;
+                // Iterate through possible actions 
                 for(int a = 1; a <= NUM_ACTIONS; ++a) {
                     double u = 0;
+                    // Iterate through possible state' agent can end up in
                     for (int p = 1; p <= NUM_STATES; ++p) {
+                        // Sum utility for state, action
                         u += T[s][a][p] * utility[p] * DISCOUNT_FACTOR;
                     }
-
+                    // Update current utility if best action found is better
                     if (u > maxActionUtility) {
                         maxActionUtility = u;
                         bestPolicy = a;
                     }
                 }
-                
+
+                // Checks if utility has changed -> update delta
                 double new_utility = maxActionUtility + R[s];
                 if (Math.abs(utility[s] - new_utility) > delta) {
                     delta = Math.abs(utility[s] - new_utility);
                 }
-            
+                // Update state utility and policy
                 utility[s] = new_utility;
                 policy[s] = bestPolicy;
             }
             
             printStatus(iteration, utility, policy);
 
+            // Check to make sure the termination function is not met
             if (delta <= EPSILON*(1-DISCOUNT_FACTOR)/DISCOUNT_FACTOR) {
                 cont = false;
             }
 
             iteration++;
         }
-        
-            
-        
     }
 
 } 
